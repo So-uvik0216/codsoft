@@ -1,0 +1,103 @@
+
+class ContactManagementSystem:
+    def __init__(self):
+        self.contacts = []
+
+    def add_contact(self, name, phone, email, address):
+        contact = {
+            'name': name,
+            'phone': phone,
+            'email': email,
+            'address': address
+        }
+        self.contacts.append(contact)
+        print(f"Contact {name} added successfully.")
+
+    def view_contacts(self):
+        if not self.contacts:
+            print("No contacts available.")
+            return
+        for idx, contact in enumerate(self.contacts):
+            print(f"{idx + 1}. Name: {contact['name']}, Phone: {contact['phone']}")
+
+    def search_contact(self, search_term):
+        results = [contact for contact in self.contacts if search_term in contact['name'] or search_term in contact['phone']]
+        if not results:
+            print("No contacts found.")
+        else:
+            for contact in results:
+                print(f"Name: {contact['name']}, Phone: {contact['phone']}, Email: {contact['email']}, Address: {contact['address']}")
+
+    def update_contact(self, search_term, name=None, phone=None, email=None, address=None):
+        for contact in self.contacts:
+            if search_term in contact['name'] or search_term in contact['phone']:
+                if name:
+                    contact['name'] = name
+                if phone:
+                    contact['phone'] = phone
+                if email:
+                    contact['email'] = email
+                if address:
+                    contact['address'] = address
+                print(f"Contact {contact['name']} updated successfully.")
+                return
+        print("Contact not found.")
+
+    def delete_contact(self, search_term):
+        for contact in self.contacts:
+            if search_term in contact['name'] or search_term in contact['phone']:
+                self.contacts.remove(contact)
+                print(f"Contact {contact['name']} deleted successfully.")
+                return
+        print("Contact not found.")
+
+# Main function to interact with the Contact Management System
+def main():
+    cms = ContactManagementSystem()
+    
+    while True:
+        print("\nContact Management System")
+        print("1. Add Contact")
+        print("2. View Contact List")
+        print("3. Search Contact")
+        print("4. Update Contact")
+        print("5. Delete Contact")
+        print("6. Exit")
+        
+        choice = input("Enter your choice: ")
+        
+        if choice == '1':
+            name = input("Enter name: ")
+            phone = input("Enter phone number: ")
+            email = input("Enter email: ")
+            address = input("Enter address: ")
+            cms.add_contact(name, phone, email, address)
+        
+        elif choice == '2':
+            cms.view_contacts()
+        
+        elif choice == '3':
+            search_term = input("Enter name or phone number to search: ")
+            cms.search_contact(search_term)
+        
+        elif choice == '4':
+            search_term = input("Enter name or phone number of the contact to update: ")
+            name = input("Enter new name (or leave blank to keep unchanged): ")
+            phone = input("Enter new phone number (or leave blank to keep unchanged): ")
+            email = input("Enter new email (or leave blank to keep unchanged): ")
+            address = input("Enter new address (or leave blank to keep unchanged): ")
+            cms.update_contact(search_term, name, phone, email, address)
+        
+        elif choice == '5':
+            search_term = input("Enter name or phone number of the contact to delete: ")
+            cms.delete_contact(search_term)
+        
+        elif choice == '6':
+            print("Exiting...")
+            break
+        
+        else:
+            print("Invalid choice, please try again.")
+
+if __name__ == "__main__":
+    main()
